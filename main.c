@@ -2,7 +2,6 @@
 // Created by remo on 18.09.2023.
 //
 
-#include "main.h"
 #include <stdio.h>
 
 int main() {
