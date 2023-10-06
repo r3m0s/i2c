@@ -25,6 +25,9 @@ int main() {
   drawIntro();
   drawBoard(game);
 
+  drawWinP1();
+  drawWinP2();
+
   return 0;
 }
 
