@@ -8,7 +8,9 @@
 #include <stdlib.h>
 
 char *getEmptyGame();
-int getAndCheckInput(int *);
+void getComment(int *);
+int getInput();
+void fillBoard();
 
 int main() {
 
@@ -19,7 +21,10 @@ int main() {
   // allocate memory for the game board
   char *game = getEmptyGame();
 
-  // game[1] = 'x';
+  //allocate memory for the player input
+  int *input = (int *)calloc(1, sizeof(int));
+
+  //lgame[1] = 'x';
   // game[5] = 'o';
   // game[7] = 'x';
 
@@ -28,21 +33,36 @@ int main() {
   drawBoard(game);
 
   while (1) {
-    int input = -1;
+    *input = -1;
+
     printf("\n\nIt's your turn player %d\n", *player % 2 ? 2 : 1);
     printf("Where do you want to put your chip? ");
 
-    if (getAndCheckInput(&input) <= 0) {
-      break;
-    } else if (getAndCheckInput(&input) != 1) {
+    *input = getInput();
+
+    getComment(input);
+
+    if (*input > 9 || *input < 0) {
       continue;
     }
 
+    if (*input == 0){
+      break;
+    }
+
+    // fillBoard();
+
+    drawBoard(game);
+    *player += 1;
   }
 
   drawWinP1();
   drawWinP2();
+  
 
+  free(input);
+  free(game);
+  free(player);
   return EXIT_SUCCESS;
 }
 
@@ -58,25 +78,39 @@ char *getEmptyGame() {
   return array;
 }
 
-int getAndCheckInput(int *column) {
-  if (scanf("%d", column)) {
-    if (*column < 0) {
-      printf("Fault while reading the Input!");
-      return -1;
-    }
+// Displays the correct message for the entered input of the user
+void getComment(int *column) {
 
-    if (*column == 0) {
-      printf("Thanks for playing! Goodbye\n");
-      return 0;
-    }
+  if (*column < 0) {
+    printf("Fault while reading the Input!\n");
+    return;
+  }
 
-    if (*column > 0 && *column < 10) {
-      return 1;
-    }
+  if (*column == 0) {
+    printf("Thanks for playing! Goodbye\n");
+    return;
+  }
 
-    printf("The value needs to be between 1 and 9!\n");
-    return 99;
-  } else {
+  if (*column > 0 && *column < 10) {
+    return;
+  }
+
+  printf("The value needs to be between 1 and 9!\n");
+}
+
+// gets the user Input and converts it into a number
+int getInput() {
+  char temp[10];
+  char *endptr;
+  int number;
+
+  fgets(temp, 10, stdin);
+
+  number = strtol(temp, &endptr, 10);
+
+  if (*endptr != '\n') {
     return -1;
   }
+
+  return number;
 }
