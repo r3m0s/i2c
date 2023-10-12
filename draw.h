@@ -35,3 +35,11 @@ void drawWinP2() {
          "|___/|_|   |_|\\___||_|\\___||_|          /___|\n");
 }
 
+void drawRules() {
+  printf("The aim of the game is to get 4 chips of yourself in a row.\n");
+  printf("The rows can be vertical, horizontal or diagonal.\n");
+  printf("The players take turns putting chips into a column.\n\n");
+  printf("When asked to place a chip just enter the number of the column you want to place the chip.\n");
+  printf("To quit just enter '0'\n");
+}
+
