@@ -13,9 +13,20 @@ int main (void) {
         for (int y = 0; y <= r; y++) {
             // iterate over columns
             for (int x = 0; x <= r; x++) {
-                // increase counters until 4 are reached in any direction, then break
+                // only do checks in the circles
                 if (y % r == 0 || x % r == 0) {
-                    printf("x");
+                    // leave out check above new symbol
+                    if (x % r != r/2 || y == r) {
+                        // leave out checks where the grid does not fall into consideration in outer rounds (not vertically/horizontally/diagonally reachable)
+                        if (x % (r/2) == 0 && y % (r/2) == 0) {
+                            // increase counters until 4 are reached in any direction, then return for win
+                            printf("x");
+                        } else {
+                            printf(" ");
+                        }
+                    } else {
+                        printf(" ");
+                    }
                 } else {
                     printf(" ");
                 }
