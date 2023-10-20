@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "checker.c"
 
 char *getEmptyGame();
 void getComment(int *);
@@ -53,6 +54,7 @@ int main() {
     // fillBoard();
 
     drawBoard(game);
+    checkState(game);
     *player += 1;
   }
 
