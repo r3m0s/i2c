@@ -103,46 +103,70 @@ int main() {
     initBoard();
     char currentPlayer = 'X';
     int col;
+    int n;
+    bool t = 1;
     
     printf("Willkommen bei Vier gewinnt!\n");
     printf("Spieler 1: X\n");
     printf("Spieler 2: O\n");
-    
-    while (1) {
-        printBoard();
+    while(1) {
+        do {
+            printBoard();
+        
+            do {
+                printf("Spieler %c, wähle eine Spalte (1-7): ", currentPlayer);
+                int input;
+                if (scanf("%d", &input) == 1) {
+                    col = input - 1;  // Adjust to zero-based index
+                } else {
+                    while (getchar() != '\n');  // Clear input buffer
+                    col = -1;  // Invalid input
+                }
+            } while (!isMoveValid(col));
+        
+            if (col == -1) {
+                printf("Ungültige Eingabe. Bitte wähle eine Spalte von 1 bis 7.\n");
+                continue;
+            }
+        
+            makeMove(col, currentPlayer);
+        
+            if (checkWinner(currentPlayer)) {
+                printBoard();
+                printf("Spieler %c gewinnt!\n", currentPlayer);
+                break;
+            }
+        
+            if (isBoardFull()) {
+                printBoard();
+                printf("Unentschieden!\n");
+                break;
+            }
+        
+            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+        
+        
+        
+        
+        }while(1);
         
         do {
-            printf("Spieler %c, wähle eine Spalte (1-7): ", currentPlayer);
-            int input;
-            if (scanf("%d", &input) == 1) {
-                col = input - 1;  // Adjust to zero-based index
+            printf("Noch eine Partie? (y/n): ");
+            char input;
+            scanf("%c", &input);
+            if (input == 'y') {
+                t = 1;
+                n = 0;
+            } else if (input == 'n'){
+                t = 0;
+                n = 0;
             } else {
-                while (getchar() != '\n');  // Clear input buffer
-                col = -1;  // Invalid input
+                printf("Tippe y oder n /n");
+                n = 1;
             }
-        } while (!isMoveValid(col));
+        } while(n);
         
-        if (col == -1) {
-            printf("Ungültige Eingabe. Bitte wähle eine Spalte von 1 bis 7.\n");
-            continue;
-        }
+    }while(t);
         
-        makeMove(col, currentPlayer);
-        
-        if (checkWinner(currentPlayer)) {
-            printBoard();
-            printf("Spieler %c gewinnt!\n", currentPlayer);
-            break;
-        }
-        
-        if (isBoardFull()) {
-            printBoard();
-            printf("Unentschieden!\n");
-            break;
-        }
-        
-        currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
-    }
-    
     return 0;
-}
+} 
