@@ -11,7 +11,7 @@
 char *getEmptyGame();
 void getComment(int *);
 int getInput();
-void fillBoard();
+int fillBoard(int *, char *, char);
 
 int main() {
 
@@ -43,7 +43,7 @@ int main() {
 
     getComment(input);
 
-    if (*input > 9 || *input < 0) {
+    if (*input > 7 || *input < 0) {
       continue;
     }
 
@@ -51,9 +51,10 @@ int main() {
       break;
     }
 
-    // fillBoard();
+    if(fillBoard(input, game, *player % 2 ? 'o' : 'x') < 0) continue;
 
     drawBoard(game);
+    printf("%d", *input);
     checkState(game);
     *player += 1;
   }
@@ -93,7 +94,7 @@ void getComment(int *column) {
     return;
   }
 
-  if (*column > 0 && *column < 10) {
+  if (*column > 0 && *column < 8) {
     return;
   }
 
@@ -115,4 +116,15 @@ int getInput() {
   }
 
   return number;
+}
+
+int fillBoard(int *column, char *board, char chip){
+  for(int i = 0; i < 6; i++){
+    if(board[(*column + (i * 7)) - 1] == ' '){
+      board[(*column + (i * 7)) - 1] = chip;
+      return 0;
+    }
+  }
+printf("This column is already full!\n");
+return -1;
 }

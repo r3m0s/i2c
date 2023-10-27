@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-O2 -Wall -g
 
-SOURCES=main.c draw.c checker.c
+SOURCES=main.c draw.c
 OBJECTS=$(SOURCES:.c=.o)
 
 TARGET=connect4
