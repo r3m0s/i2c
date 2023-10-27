@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "checker.c"
+#include "checker.h"
 
 char *getEmptyGame();
 void getComment(int *);
