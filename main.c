@@ -48,6 +48,7 @@ int main() {
     }
 
     if (*input == 0){
+      *player = -1;
       break;
     }
 
@@ -59,10 +60,13 @@ int main() {
     *player += 1;
   }
 
-  drawWinP1();
-  drawWinP2();
-  
 
+  if(*player > 0){
+    *player % 2 ? drawWinP2() : drawWinP1();
+  } else {
+    printf("Hope you didn't ragequit!\n");
+  }
+  
   free(input);
   free(game);
   free(player);
