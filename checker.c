@@ -7,10 +7,11 @@
 
 enum Direction {DiagonalDown=-6, DiagonalUp=-8, Horizontal=1, VerticalDown=-7};
 
-void checkState(char *a) {
+int checkState(char *a) {
     for (int i = 5; i >= 0; i--) {
 
     }
+  return 0;
 }
 
 int countTowardsCenter() {

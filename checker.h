@@ -1,4 +1,4 @@
-void checkState(char *);
+int checkState(char *);
 
 int countTowardsCenter();
 

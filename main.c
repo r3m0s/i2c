@@ -2,74 +2,109 @@
 // Created by remo on 18.09.2023.
 //
 
+#include "checker.h"
 #include "draw.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "checker.h"
 
 char *getEmptyGame();
+
 void getComment(int *);
-int getInput();
+
+int getInteger();
+
+char getChar();
+
 int fillBoard(int *, char *, char);
 
 int main() {
 
-  // allocate memory for the player count
-  int *player = (int *)calloc(1, sizeof(int));
-  *player = 0;
+  int g = 1;
+  do {
+    // allocate memory for the player count
+    int *player = (int *)calloc(1, sizeof(int));
+    *player = 0;
 
-  // allocate memory for the game board
-  char *game = getEmptyGame();
+    // allocate memory for the game board
+    char *game = getEmptyGame();
 
-  //allocate memory for the player input
-  int *input = (int *)calloc(1, sizeof(int));
+    // allocate memory for the player input
+    int *input = (int *)calloc(1, sizeof(int));
 
-  //lgame[1] = 'x';
-  // game[5] = 'o';
-  // game[7] = 'x';
-
-  drawIntro();
-  drawRules();
-  drawBoard(game);
-
-  while (1) {
-    *input = -1;
-
-    printf("\n\nIt's your turn player %d\n", *player % 2 ? 2 : 1);
-    printf("Where do you want to put your chip? ");
-
-    *input = getInput();
-
-    getComment(input);
-
-    if (*input > 7 || *input < 0) {
-      continue;
-    }
-
-    if (*input == 0){
-      *player = -1;
-      break;
-    }
-
-    if(fillBoard(input, game, *player % 2 ? 'o' : 'x') < 0) continue;
-
+    drawIntro();
+    drawRules();
     drawBoard(game);
-    printf("%d", *input);
-    checkState(game);
-    *player += 1;
-  }
 
+    // initialize game loop
+    int p = 0;
 
-  if(*player > 0){
-    *player % 2 ? drawWinP2() : drawWinP1();
-  } else {
-    printf("Hope you didn't ragequit!\n");
-  }
-  
-  free(input);
-  free(game);
-  free(player);
+    do {
+      *input = -1;
+
+      printf("\n\nIt's your turn player %d\n", *player % 2 ? 2 : 1);
+      printf("Where do you want to put your chip? ");
+
+      *input = getInteger();
+
+      getComment(input);
+
+      // start at the top of the loop if the column is not in the allowed range
+      if (*input > 7 || *input < 0) {
+        continue;
+      }
+
+      // quit the game if the input was 0
+      if (*input == 0) {
+        *player = -1;
+        break;
+      }
+
+      // fill the game with the approprate char
+      if (fillBoard(input, game, *player % 2 ? 'o' : 'x') < 0)
+        continue;
+
+      // draw the board with the actual state
+      drawBoard(game);
+
+      // check if a player won
+      // if one won then exit the game loop
+      p = checkState(game);
+
+      // increment the player count
+      *player += 1;
+    } while (p == 0);
+
+    // check which one of the players won and draw the winner screen
+    if (*player > 0) {
+      (*player - 1) % 2 ? drawWinP2() : drawWinP1();
+    }
+
+    // go into the new game loop
+    // ask if the players want to go again or quit the whole game
+    int n = 1;
+    do {
+      printf("Wanna play again? (y/n): ");
+      char input;
+      input = getChar();
+      if (input == 'y') {
+        g = 1;
+        n = 0;
+      } else if (input == 'n') {
+        g = 0;
+        n = 0;
+      } else {
+        printf("Tippe y oder n /n");
+        n = 1;
+      }
+    } while (n);
+
+    // free the allocated variables
+    free(input);
+    free(game);
+    free(player);
+  } while (g);
+
   return EXIT_SUCCESS;
 }
 
@@ -106,7 +141,7 @@ void getComment(int *column) {
 }
 
 // gets the user Input and converts it into a number
-int getInput() {
+int getInteger() {
   char temp[10];
   char *endptr;
   int number;
@@ -122,13 +157,24 @@ int getInput() {
   return number;
 }
 
-int fillBoard(int *column, char *board, char chip){
-  for(int i = 0; i < 6; i++){
-    if(board[(*column + (i * 7)) - 1] == ' '){
+char getChar() {
+  char temp[2];
+  char input;
+
+  fgets(temp, 10, stdin);
+
+  input = temp[0];
+
+  return input;
+}
+
+int fillBoard(int *column, char *board, char chip) {
+  for (int i = 0; i < 6; i++) {
+    if (board[(*column + (i * 7)) - 1] == ' ') {
       board[(*column + (i * 7)) - 1] = chip;
       return 0;
     }
   }
-printf("This column is already full!\n");
-return -1;
+  printf("This column is already full!\n");
+  return -1;
 }
