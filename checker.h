@@ -1,7 +1,3 @@
-int checkState(char *);
+#include <stdio.h>
 
-int countTowardsCenter();
-
-void findOpponentInsideOut(char**, int);
-
-int test (void);
+int checkState(int *, char *);

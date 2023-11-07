@@ -1,81 +1,43 @@
-//
-// Created by remo on 13.10.2023.
-//
-
 #include <stdio.h>
 #include <stdlib.h>
 
-enum Direction {DiagonalDown=-6, DiagonalUp=-8, Horizontal=1, VerticalDown=-7};
+typedef enum { DiagonalDown=-6, DiagonalUp=-8, Horizontal=1, VerticalDown=-7 } Direction;
+Direction directions[4] = { DiagonalDown, DiagonalUp, Horizontal, VerticalDown };
 
-int checkState(char *a) {
-    for (int i = 5; i >= 0; i--) {
+int checkState(int *column, char *board) {
+    int originIndex = 0;
 
+    // Finds index of the current game position (origin of evaluation)
+    for(int i = 0; i < 6; i++) {
+        if (board[(*column + (i * 7)) - 1] == ' ') {
+            originIndex = (*column + ((i-1) * 7)) - 1;
+            break;
+        }
+
+        // Set index to the highest value
+        originIndex = (*column + (i * 7)) - 1;
     }
-  return 0;
-}
 
-int countTowardsCenter() {
-    int counter = 0;
+    for(int i = 0; i<4; ++i) {
+        int identical = 0;
+        int position = originIndex;
 
-    return counter;
-}
+        // Evaluate outer-most identical value going in one direction
+        for(int l = originIndex; l >= 0 && l <= (6*7)-1 && board[l]==board[originIndex]; l+=directions[i]) {
+            position = l;
+        }
 
-void findOpponentInsideOut(char** array, int r) {
-    // iterate over rows
-    for (int y = 0; y <= r; y++) {
-        // iterate over columns
-        for (int x = 0; x <= r; x++) {
-            // only do checks in the circles/rects
-            if (y % r == 0 || x % r == 0) {
-                // leave out check above new symbol
-                if (x % r != r/2 || y == r) {
-                    // leave out checks where the grid does not fall into consideration in outer rounds (not vertically/horizontally/diagonally reachable)
-                    if (x % (r/2) == 0 && y % (r/2) == 0) {
-                        // find first symbol of opponent and start to count back towards center
-                        printf("x");
-                        if(*(*(array + y) + x) == 'o') {
-                            countTowardsCenter();
-                        }
-                    } else {
-                        printf(" ");
-                    }
-                } else {
-                    printf(" ");
-                }
-            } else {
-                printf(" ");
+        // Evaluate identical values in a row starting at outer-most identical from before, going backwards
+        for(int p = position; p >= 0 && p <= (6*7)-1 && board[p]==board[originIndex]; p-=directions[i]) {
+            identical++;
+
+            // Current player wins
+            if(identical==4) {
+                return 1;
             }
         }
-        printf("\n");
-    }
-}
-
-int test (void) {
-    const int rows = 6;
-    const int columns = 7;
-    // char array[rows][columns];
-    char** array = (char**)malloc(rows * sizeof(char*));
-    for (int i = 0; i < rows; i++) {
-        array[i] = (char*)malloc(columns * sizeof(char));
     }
 
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < columns; j++) {
-            array[i][j] = 'x';
-            printf("%c", array[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-
-
-    int diagonalCounterUp, diagonalCounterDown, verticalCounter, horizontalCounter = 1;
-
-    // check in rounds starting from innermost circle around latest symbol, check-sizes increase by 2: 2, 4, 6
-    for (int r = 2; r<=6; r = r+2) {
-        findOpponentInsideOut(array, r);
-        printf("Round done\n");
-    }
-
+    // Return 0 if no winner
     return 0;
 }

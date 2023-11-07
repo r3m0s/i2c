@@ -69,7 +69,7 @@ int main() {
 
       // check if a player won
       // if one won then exit the game loop
-      p = checkState(game);
+      p = checkState(input, game);
 
       // increment the player count
       *player += 1;
@@ -94,7 +94,7 @@ int main() {
         g = 0;
         n = 0;
       } else {
-        printf("Tippe y oder n /n");
+        printf("Tippe y oder n \n");
         n = 1;
       }
     } while (n);
