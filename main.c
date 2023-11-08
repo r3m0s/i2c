@@ -137,7 +137,7 @@ void getComment(int *column) {
     return;
   }
 
-  printf("The value needs to be between 1 and 9!\n");
+  printf("The value needs to be between 1 and 7!\n");
 }
 
 // gets the user Input and converts it into a number
