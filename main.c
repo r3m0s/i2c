@@ -69,7 +69,8 @@ int main() {
 
       // check if a player won
       // if one won then exit the game loop
-      p = checkState(input, game);
+      if(*player > 6)
+        p = checkState(input, game);
 
       // increment the player count
       *player += 1;
