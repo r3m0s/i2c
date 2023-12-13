@@ -74,7 +74,7 @@ int main() {
 
       // increment the player count
       *player += 1;
-      if(*player > 42) {
+      if(*player > 41) {
         p = 1; 
         drawDraw();
       }
