@@ -8,5 +8,7 @@ void drawWinP1();
 
 void drawWinP2(); 
 
+void drawDraw();
+
 void drawRules();
 

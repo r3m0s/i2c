@@ -58,6 +58,14 @@ void drawWinP2() {
          "           \n");
 }
 
+void drawDraw() {
+  printf(" ____                     _ \n"
+         "|  _ \\ _ __ __ ___      _| |\n"
+         "| | | | '__/ _` \\ \\ /\\ / / |\n"
+         "| |_| | | | (_| |\\ V  V /|_|\n"
+         "|____/|_|  \\__,_| \\_/\\_/ (_)\n");
+}
+
 void drawRules() {
   printf("The aim of the game is to get 4 chips of yourself in a row.\n");
   printf("The rows can be vertical, horizontal or diagonal.\n");

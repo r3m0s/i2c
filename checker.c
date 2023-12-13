@@ -22,7 +22,7 @@ int checkState(int *column, char *board) {
         int identical = 0;
         int position = originIndex;
 
-        if((directions[i]==DiagonalDown && originIndex%7 < 4) || (directions[i]==DiagonalUp && originIndex%7 > 2) || directions[i]==Horizontal || directions[i]==VerticalDown) {
+        if((directions[i]==DiagonalDown && originIndex%7 > 4) || (directions[i]==DiagonalUp && originIndex%7 > 2) || directions[i]==Horizontal || directions[i]==VerticalDown) {
             // Evaluate outer-most identical value going in one direction
             for(int l = originIndex; l >= 0 && l <= (6*7)-1 && board[l]==board[originIndex]; l+=directions[i]) {
                 position = l;

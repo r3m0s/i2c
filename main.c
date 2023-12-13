@@ -69,11 +69,15 @@ int main() {
 
       // check if a player won
       // if one won then exit the game loop
-      if(*player > 6)
+      if(*player >= 6)
         p = checkState(input, game);
 
       // increment the player count
       *player += 1;
+      if(*player > 42) {
+        p = 1; 
+        drawDraw();
+      }
     } while (p == 0);
 
     // check which one of the players won and draw the winner screen
